@@ -252,7 +252,7 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
-    (setq paradox-github-token 'e8659d1bf00d363d022a15a2faf59af7b4a00718)
+    (setq paradox-github-token (getenv "PARADOX_GITHUB_TOKEN"))
   )
 
 (defun dotspacemacs/user-config ()
