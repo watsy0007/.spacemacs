@@ -33,9 +33,13 @@ values."
      auto-completion
      better-defaults
      emacs-lisp
+     racket
      dash
      git
      markdown
+     html
+     javascript
+     dockerfile
      org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -43,6 +47,9 @@ values."
      spell-checking
      syntax-checking
      version-control
+     (osx :variables
+          osx-use-option-as-meta nil)
+     osx
      (ruby :variables
            ruby-test-runner 'rspec
            ruby-version-manager 'rvm
@@ -252,7 +259,34 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
-    (setq paradox-github-token (getenv "PARADOX_GITHUB_TOKEN"))
+  (setq paradox-github-token (getenv "PARADOX_GITHUB_TOKEN"))
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; emmet-mode
+  ;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  (require 'emmet-mode)
+  (add-hook 'html-mode-hook 'emmet-mode)
+  (add-hook 'web-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook 'emmet-mode)
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;web-mode
+  ;;;;;;;;;;;;;;;;;;;;;;;;
+  ((add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+   (defun my-web-mode-hook ()
+     "Hooks for Web mode."
+     (setq web-mode-markup-indent-offset 2)
+     )require 'web-mode)
+  (add-hook 'web-mode-hook 'my-web-mode-hook)
   )
 
 (defun dotspacemacs/user-config ()
@@ -263,3 +297,18 @@ layers configuration. You are free to put any user code."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(wakatime-api-key "d48e6df2-0239-480e-a0ca-29da9566328f")
+ '(wakatime-cli-path
+   "/usr/local/bin/wakatime"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
